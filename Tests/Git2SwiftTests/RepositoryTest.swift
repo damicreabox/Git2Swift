@@ -33,8 +33,7 @@ class RepositoryTest: XCTestCase {
             XCTAssertEqual("refs/heads/master", try head.targetReference().name)
             
         } catch  {
-            NSLog("\(error)")
-            XCTFail()
+            XCTFail("\(error)")
         }
     }
     
@@ -56,8 +55,7 @@ class RepositoryTest: XCTestCase {
             XCTAssert(FileManager.default.fileExists(atPath: initPath.appendingPathComponent("HEAD").path))
             
         } catch  {
-            NSLog("\(error)")
-            XCTFail()
+            XCTFail("\(error)")
         }
     }
     
@@ -83,9 +81,42 @@ class RepositoryTest: XCTestCase {
                            try repository2.head().targetCommit().oid.sha())
             
         } catch  {
-            NSLog("\(error)")
-            XCTFail()
+            XCTFail("\(error)")
         }
     }
 
+    func testCloneRepository() throws {
+        
+        do {
+            
+            let cloneUrl = URL(string: "https://github.com/damicreabox/CLibgit2.git")
+            guard cloneUrl != nil else {
+                throw GitError.notFound(ref: "URL not found :-(")
+            }
+            
+            let repositoryManager = RepositoryManager()
+            
+            // Create repository at URL
+            let clonedPath = try DirectoryManager.initDirectory(name: RepositoryTest.name + "Clone")
+            
+            // Create repo
+            let repository1 = try repositoryManager.cloneRepository(from: cloneUrl!, at: clonedPath)
+            
+            let iterator = try repository1.tags.all()
+            let tag1 = iterator.next()
+            
+            XCTAssertEqual("refs/tags/1.0.0", tag1?.name)
+            
+            let remotes = repository1.remotes
+            let remoteNames = try remotes.remoteNames()
+            XCTAssertEqual(1, remoteNames.count)
+            XCTAssertEqual("origin", remoteNames[0])
+            
+            let remote = try remotes.get(name: "origin")
+            XCTAssertEqual("origin", remote.name)
+            
+        } catch {
+            XCTFail("\(error)")
+        }
+    }
 }

@@ -5,8 +5,6 @@ Swift binding for **libgit2** library
 
 At the moment, only some *libgit2* features are implemented. Merge requests are welcome.
 
-In version *0.1*, only the local actions are implemented.
-
 Available features:
 - RepositoryManager
   - Open
@@ -38,8 +36,23 @@ Available features:
     - List all
  - Tree (only concept)
 
+ - Remotes
+    - List
+    - Get
+    - Pull
+    - Push
+    - Autheticate
+        - Password
+        - SSH key
+
+
 # How to compile
 
-> Tested on MacOs Sierra with XCode 8 beta 4
+> Tested on MacOs Sierra with XCode 8 GM
 
 *libgit2* must be installed in `/usr/local` directory.
+
+# How to test credential
+
+Create JSON file containing credential information like ```Tests/Sample.json```  
+And set environnement variable ```AUTH_CONFIG_TEST_FILE``` with full path to JSON file.

@@ -1,0 +1,7 @@
+{
+	"authenticationTest" : true,
+	"login" : "{LOGIN}",
+	"password" : "{PASSWORD}",
+	"privateKey" : "{PRIVATE_KEY}",
+	"publicKey" : "{PUBLIC_KEY}"
+}

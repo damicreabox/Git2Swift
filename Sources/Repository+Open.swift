@@ -61,4 +61,48 @@ extension Repository {
         
         self.init(at: url, manager: manager, repository: repository)
     }
+    
+    /// Clone a repository at URL
+    ///
+    /// - parameter url:            URL to remote git
+    /// - parameter at:             URL to local respository
+    /// - parameter manager:        Repository manager
+    /// - parameter authentication: Authentication
+    ///
+    /// - throws: GitError wrapping libgit2 error
+    ///
+    /// - returns: Repository
+    convenience init(cloneFrom url: URL,
+                     at: URL,
+                     manager: RepositoryManager,
+                     authentication: AuthenticationHandler? = nil) throws {
+        
+        // Repository pointer
+        let repository = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
+        
+        var opts = git_clone_options()
+        opts.version = 1
+        opts.checkout_opts.version = 1
+        opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE.rawValue
+        opts.fetch_opts.version = 1
+        opts.fetch_opts.prune = GIT_FETCH_PRUNE_UNSPECIFIED
+        opts.fetch_opts.update_fetchhead = 1
+        
+        opts.fetch_opts.callbacks.version = 1
+        
+        // Check handler
+        if (authentication != nil) {
+            setAuthenticationCallback(&opts.fetch_opts.callbacks, authentication: authentication!)
+        }
+        
+        // Clone repository
+        let error = git_clone(repository, url.absoluteString, at.path, &opts)
+        if (error != 0) {
+            repository.deinitialize()
+            repository.deallocate(capacity: 1)
+            throw gitUnknownError("Unable to clone repository, from \(url) to: \(at)", code: error)
+        }
+        
+        self.init(at: at, manager: manager, repository: repository)
+    }
 }
