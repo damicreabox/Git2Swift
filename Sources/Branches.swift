@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Branches manager
 public class Branches {
@@ -19,8 +20,33 @@ public class Branches {
     /// - parameter repository: Git2Swift repository
     ///
     /// - returns: Branches
-    init(withRepository repository: Repository) {
+    init(repository: Repository) {
         self.repository = repository
+    }
+    
+    /// All branch names
+    public func names(type: BranchType = .local) throws -> [String] {
+        
+        var strs = [String]()
+        
+        for branch in try all(type: type) {
+            strs.append(branch.name)
+        }
+        
+        
+        return strs
+    }
+    
+    /// Get branch with full reference name
+    ///
+    /// - parameter name: Branch name
+    ///
+    /// - throws: GitError (notFound, invalidSpec)
+    ///
+    /// - returns: Branch
+    public func get(spec: String) throws -> Branch {
+        let specInfo = try Branch.getSpecInfo(spec: spec)
+        return try get(name: specInfo.name, type: specInfo.type)
     }
     
     /// Get branch by name

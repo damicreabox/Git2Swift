@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Refrence type
 ///
@@ -71,13 +72,6 @@ public class Reference {
     
     /// Libgit2 refrence pointer
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
-    
-    ///
-    /// Target reference.
-    /// - Returns reference
-    /// - Throws GitError
-    ///
-    
     
     /// Target reference
     ///

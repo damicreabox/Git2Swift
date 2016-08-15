@@ -27,10 +27,16 @@ class BranchTest: XCTestCase {
             // Find master
             let masterBranch = try branches.get(name: "master")
             
+            // Find master
+            let fullNameMasterBranch = try branches.get(spec: "refs/heads/master")
+            
+            XCTAssertEqual(masterBranch.name, fullNameMasterBranch.name)
+            
             // Find invalid branch
             XCTAssertThrowsError(try branches.get(name: "branch"))
             
             XCTAssertEqual("refs/heads/master", masterBranch.name)
+            XCTAssertEqual("master", masterBranch.shortName)
             XCTAssertEqual(BranchType.local, masterBranch.type)
             
             // Add file 1

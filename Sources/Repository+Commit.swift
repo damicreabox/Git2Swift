@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 // MARK: - Repository extension for commit
 extension Repository {

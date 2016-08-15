@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 // Manage tags
 public class Tags {
@@ -50,12 +51,22 @@ public class Tags {
     /// - returns: Tag
     public func get(name: String) throws -> Tag {
         
+        let spec : String
+        let shortName : String
+        
+        // Find spec
+        if (name.hasPrefix("refs/tags/")) {
+            spec = name
+            shortName = name.substring(from: name.index(name.startIndex, offsetBy: 10))
+        } else {
+            spec = "refs/tags/\(name)"
+            shortName = name
+        }
+        
         let reference = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
         
-        // TODO Find full path
-        
         // Find tag reference
-        let error = git_reference_lookup(reference, repository.pointer.pointee, "refs/tags/\(name)")
+        let error = git_reference_lookup(reference, repository.pointer.pointee, spec)
         if (error != 0) {
             
             // 0 on success, GIT_ENOTFOUND, GIT_EINVALIDSPEC or an error code.
@@ -76,7 +87,7 @@ public class Tags {
             throw GitError.notFound(ref: "refs/tags/\(name)")
         }
         
-        return Tag(repository: repository, name: name, oid: OID(withGitOid: gOid!.pointee))
+        return Tag(repository: repository, name: shortName, oid: OID(withGitOid: gOid!.pointee))
     }
     
     

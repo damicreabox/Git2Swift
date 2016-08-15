@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 public enum GitError : Error {
     

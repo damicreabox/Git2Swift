@@ -63,3 +63,12 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
+
+<<<<<<< 41ecea48e651b288464940cfb34d63eff56893fb
+
+**/.DS_Store
+=======
+**.DS_Store
+>>>>>>> WIP
+Packages
+

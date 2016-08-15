@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 // MARK: - Reference extension for target
 extension Reference {

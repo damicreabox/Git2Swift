@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Branch iterator
 public class BranchIterator : Sequence, IteratorProtocol {
@@ -58,7 +59,7 @@ public class BranchIterator : Sequence, IteratorProtocol {
         }
         
         // find next
-        let result : Int32 = git_branch_next(branch, type, branch_iterator.pointee)
+        let result = git_branch_next(branch, type, branch_iterator.pointee)
         
         // Test next
         if (result != GIT_ITEROVER.rawValue) {

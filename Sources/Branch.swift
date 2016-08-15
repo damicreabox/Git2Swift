@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Branch type
 ///
@@ -26,11 +27,14 @@ public enum BranchType : UInt32 {
 /// - returns: libgit2 branch
 func git_convert_branch_type(_ type: BranchType) -> git_branch_t {
     
-    if (type == .remote) {
+    switch type {
+    case .local:
+        return GIT_BRANCH_LOCAL
+    case .remote:
         return GIT_BRANCH_REMOTE
+    case .all:
+        return GIT_BRANCH_ALL
     }
-    
-    return GIT_BRANCH_LOCAL
 }
 
 /// Convert a libgit2 branch to Git2Swift branch.
@@ -54,6 +58,37 @@ public class Branch : Reference {
     
     /// Type of branch
     public let type: BranchType
+    
+    lazy public var shortName : String = {
+        do {
+            return try Branch.getSpecInfo(spec: self.name, type: self.type).name
+        } catch {
+            return self.name
+        }
+    } ()
+    
+    /// Decode rbanch spec in name and type
+    ///
+    /// - parameter spec: Full spec
+    /// - parameter type: Known type for optimisation (may be null)
+    ///
+    /// - throws: GitError
+    ///
+    /// - returns: Typle (name, type)
+    public static func getSpecInfo(spec: String, type: BranchType? = nil) throws -> (name: String, type: BranchType) {
+        
+        // Test local
+        if ((type != nil && type! == .local) || spec.hasPrefix("refs/heads/")) {
+            let name = spec.substring(from: spec.index(spec.startIndex, offsetBy: 11))
+            return (name, BranchType.local)
+            // Test remote
+        } else if ((type != nil && type! == .remote) || spec.hasPrefix("refs/remotes/")) {
+            let name = spec.substring(from: spec.index(spec.startIndex, offsetBy: 13))
+            return (name, BranchType.local)
+        } else {
+            throw GitError.invalidSpec(spec: spec)
+        }
+    }
     
     /// Constructor with repository, name and libgit2 pointer
     ///
