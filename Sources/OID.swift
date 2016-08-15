@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Define git OID
 public struct OID {

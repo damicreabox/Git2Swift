@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Manage current repository statuses
 public class Statuses {

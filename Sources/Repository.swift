@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Repository wrapping a libgit2 repository
 public class Repository {

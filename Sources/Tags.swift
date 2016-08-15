@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 // Manage tags
 public class Tags {

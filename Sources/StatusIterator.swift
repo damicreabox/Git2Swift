@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Statuses iterator
 public class StatusIterator : Sequence, IteratorProtocol {

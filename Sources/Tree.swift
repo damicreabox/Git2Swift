@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Tree Definition
 public class Tree {

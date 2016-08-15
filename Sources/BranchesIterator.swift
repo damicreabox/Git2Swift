@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Branch iterator
 public class BranchIterator : Sequence, IteratorProtocol {

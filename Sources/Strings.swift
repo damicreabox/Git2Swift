@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Convert libgit2 string to Swift string
 ///

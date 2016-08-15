@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CLibgit2
 
 /// Wrap a commit
 public class Commit : Object {
