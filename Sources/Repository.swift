@@ -23,7 +23,7 @@ public class Repository {
     
     /// Branches manager
     lazy public private(set) var branches : Branches = {
-        Branches(withRepository: self)
+        Branches(repository: self)
     } ()
     
     /// Statuses manager
@@ -34,6 +34,10 @@ public class Repository {
     /// Access tags manager
     lazy public private(set) var tags : Tags = {
         Tags(repository: self)
+    } ()
+    
+    lazy public private(set) var remotes : Remotes = {
+        Remotes(repository: self)
     } ()
     
     /// Constructor with repository manager and libgit2 repository

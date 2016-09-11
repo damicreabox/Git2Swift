@@ -23,6 +23,10 @@ class DirectoryManager {
     ///
     private static func initBase() throws -> URL {
         
+        if (true) {
+            return baseBase
+        }
+        
         if (temporaryDirectory == nil) {
             temporaryDirectory = NSTemporaryDirectory().appending(NSUUID().uuidString)
             

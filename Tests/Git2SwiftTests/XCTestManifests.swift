@@ -86,3 +86,21 @@ extension TagTest {
     ]
     
 }
+
+extension RemoteTest {
+    
+    static var allTests = [
+        ("testRemoteRepository", testRemoteRepository),
+        ("testFetchRepository", testFetchRepository),
+        ("testPushRepository", testPushRepository)
+    ]
+    
+}
+
+extension AuthenticationTest {
+    
+    static var allTests = [
+        ("testCloneRepository", testCloneRepository)
+    ]
+    
+}

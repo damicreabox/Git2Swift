@@ -109,6 +109,15 @@ class TagTest: XCTestCase {
             XCTAssertFalse(FileManager.default.fileExists(atPath: url2.path))
             XCTAssertFalse(FileManager.default.fileExists(atPath: url3.path))
             
+            // get tag 1
+            let getTag1 = try tags.get(name: "tag1")
+            let getTag3 = try tags.get(name: "refs/tags/tag3")
+            
+            XCTAssertEqual("refs/tags/tag1", getTag1.name)
+            XCTAssertEqual("refs/tags/tag3", getTag3.name)
+            XCTAssertEqual("tag1", getTag1.shortName)
+            XCTAssertEqual("tag3", getTag3.shortName)
+            
         } catch {
             XCTFail("\(error)")
         }
