@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/damicreabox/Git2Swift.svg)](https://travis-ci.org/damicreabox/Git2Swift.svg)
+
 # Git2Swift
 Swift binding for **libgit2** library
 

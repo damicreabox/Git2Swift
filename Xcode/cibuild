@@ -1,0 +1,2 @@
+#!/bin/bash
+xcodebuild -project Xcode/Git2Swift.xcodeproj -configuration Debug -scheme Git2Swift test

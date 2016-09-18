@@ -1,0 +1,15 @@
+language: objective-c
+
+osx_image: xcode8
+
+sudo: false
+
+before_install:
+ - brew update
+ - brew install libgit2
+
+script: Xcode/cibuild
+
+xcode_project: Xcode/Git2Swift.xcodeproj
+xcode_scheme: Git2Swift
+
