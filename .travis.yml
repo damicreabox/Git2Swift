@@ -10,7 +10,6 @@ matrix:
        - libgit2
        - clang
        - libicu-dev
-    sudo: false
   - os: osx
     osx_image: xcode8
     sudo: false
