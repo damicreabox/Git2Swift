@@ -23,8 +23,14 @@ class DirectoryManager {
     ///
     private static func initBase() throws -> URL {
         
-        if (true) {
-            return baseBase
+        // Process Info
+        let dict = ProcessInfo.processInfo.environment
+        
+        // Find config file
+        let configFile = dict["USE_CUSTOM_TEST_DIRECTORY"]
+        if (configFile != nil) {
+            NSLog("Use custom test directory : \(configFile)")
+            return URL(fileURLWithPath: "configFile")
         }
         
         if (temporaryDirectory == nil) {
