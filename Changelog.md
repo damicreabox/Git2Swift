@@ -1,3 +1,14 @@
+# Version 0.3
+
+Add revision log and associated dependencies
+
+- Revision iterator
+- File revision iterator
+- Diff
+  - Diff entry (partial)
+- Tree
+  - Tree entry (partial)
+
 # Version 0.2
 
 Add remotes actions

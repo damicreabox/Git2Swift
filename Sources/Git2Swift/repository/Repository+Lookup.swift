@@ -105,6 +105,6 @@ extension Repository {
             throw gitUnknownError("Unable to lookup commit", code: error)
         }
         
-        return Commit(pointer: commit, oid: OID(withGitOid: oid))
+        return Commit(repository: self, pointer: commit, oid: OID(withGitOid: oid))
     }
 }

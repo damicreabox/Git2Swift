@@ -37,7 +37,6 @@ Available features:
     - WorkingDirectoryClean
     - List all
  - Tree (only concept)
-
  - Remotes
     - List
     - Get
@@ -46,11 +45,18 @@ Available features:
     - Autheticate
         - Password
         - SSH key
+ - Revisions
+    - Revision iterator
+    - File revision iterator
+    - Diff
+        - Diff entry (partial)
+    - Tree
+        - Tree entry (partial)
 
 
 # How to compile
 
-> Tested on MacOs Sierra with XCode 8 GM
+> Tested on MacOs Sierra with XCode 8
 
 *libgit2* must be installed in `/usr/local` directory.
 

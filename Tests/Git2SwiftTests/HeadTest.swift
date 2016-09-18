@@ -8,6 +8,10 @@
 
 import XCTest
 
+import Foundation
+
+@testable import Git2Swift
+
 class HeadTest: XCTestCase {
     
     static let name = "headTest"

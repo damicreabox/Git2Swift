@@ -12,6 +12,8 @@ import CLibgit2
 /// Wrap a commit
 public class Commit : Object {
     
+    private let repository : Repository
+    
     /// LibGit2 commit pointer
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
     
@@ -54,7 +56,8 @@ public class Commit : Object {
     /// - parameter oid:     OID
     ///
     /// - returns: Commit
-    init(pointer: UnsafeMutablePointer<OpaquePointer?>, oid: OID) {
+    init(repository : Repository, pointer: UnsafeMutablePointer<OpaquePointer?>, oid: OID) {
+        self.repository = repository
         self.pointer = pointer
         self.oid = oid
     }
@@ -65,5 +68,20 @@ public class Commit : Object {
         }
         pointer.deinitialize()
         pointer.deallocate(capacity: 1)
+    }
+    
+    public func tree() throws -> Tree {
+        
+        // Tree
+        let tree = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
+        
+        // Find tree from commit
+        let error = git_commit_tree(tree, pointer.pointee)
+        if (error == 0) {
+            return Tree(repository: repository, tree: tree)
+        } else {
+            throw GitError.unknownError(msg: "Unable to find tree from commit",
+                                        code: error, desc: git_error_message())
+        }
     }
 }
