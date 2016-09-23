@@ -6,9 +6,9 @@
 //  Copyright © 2016 Creabox. All rights reserved.
 //
 
-import Foundation
-
 import XCTest
+
+import Foundation
 
 @testable import Git2Swift
 

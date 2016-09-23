@@ -98,6 +98,35 @@ public class Reference {
         return try git_revTree(repository: repository, referenceName: name)
     }
     
+    /// Create revision walker from this reference
+    ///
+    /// - throws: GitError
+    ///
+    /// - returns: Revision walker
+    public func revWalker() throws -> RevisionIterator {
+        
+        // Create walker
+        let walker = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
+        
+        // Init walker
+        var error = git_revwalk_new(walker, repository.pointer.pointee)
+        guard error == 0 else {
+            walker.deinitialize()
+            walker.deallocate(capacity: 1)
+            throw gitUnknownError("Unable to create rev walker for \(name)", code: error)
+        }
+        
+        // Push reference
+        error = git_revwalk_push_ref(walker.pointee, name)
+        guard error == 0 else {
+            walker.deinitialize()
+            walker.deallocate(capacity: 1)
+            throw gitUnknownError("Unable to set rev walker for \(name)", code: error)
+        }
+        
+        return RevisionIterator(repository: repository, pointer: walker)
+    }
+    
     /// Constructor with repository, name and pointer
     ///
     /// - parameter repository: Git2Swift repository

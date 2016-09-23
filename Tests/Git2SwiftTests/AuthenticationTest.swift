@@ -6,9 +6,9 @@
 //  Copyright © 2016 Creabox. All rights reserved.
 //
 
-import Foundation
-
 import XCTest
+
+import Foundation
 
 @testable import Git2Swift
 
@@ -137,7 +137,7 @@ class AuthenticationTest: XCTestCase {
             
             // base repository
             let baseRepository = try repositoryManager.initRepository(at: basePath,
-                                                                      signature: repositoryManager.systemSignature(), bare: true)
+                                                                      signature: repositoryManager.systemSignature(),bare: true)
             
             let cloneUrl = URL(string: "ssh://\(user)@localhost\(baseRepository.url.path)")
             guard cloneUrl != nil else {

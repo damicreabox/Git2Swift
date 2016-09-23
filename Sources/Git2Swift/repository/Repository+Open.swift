@@ -51,8 +51,22 @@ extension Repository {
         // Repository pointer
         let repository = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
         
+        // Options
+        var options = git_repository_init_options()
+        
+        options.version = 1
+        
+        if bare {
+            // Set bare
+            options.flags = GIT_REPOSITORY_INIT_BARE.rawValue
+        }
+        
+        // Used shared
+        options.mode = GIT_REPOSITORY_INIT_SHARED_ALL.rawValue
+        
         // Init repo
-        let error = git_repository_init(repository, url.path, bare ? 1 : 0)
+        let error = git_repository_init_ext(repository, url.path, &options)
+        //let error = git_repository_init(repository, url.path, bare ? 1 : 0)
         if (error != 0) {
             repository.deinitialize()
             repository.deallocate(capacity: 1)

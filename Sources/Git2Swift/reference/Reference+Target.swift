@@ -47,7 +47,7 @@ extension Reference {
         }
         
         // Set target
-        return Commit(pointer: target, oid: OID(withGitOid: gOid!.pointee))
+        return Commit(repository: repository, pointer: target, oid: OID(withGitOid: gOid!.pointee))
     }
     
     /// Update target commit

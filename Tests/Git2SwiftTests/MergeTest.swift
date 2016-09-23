@@ -8,6 +8,8 @@
 
 import XCTest
 
+import Foundation
+
 @testable import Git2Swift
 
 class MergeTest: XCTestCase {

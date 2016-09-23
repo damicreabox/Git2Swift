@@ -104,3 +104,10 @@ extension AuthenticationTest {
     ]
     
 }
+
+extension RevlogTest {
+    
+    static var allTests = [
+        ("testFileLog", testFileLog)
+    ]
+}

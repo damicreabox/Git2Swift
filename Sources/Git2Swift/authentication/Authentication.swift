@@ -10,22 +10,6 @@ import Foundation
 
 import CLibgit2
 
-/// Wrapp authentication to C function
-internal class AuthenticationWrapper<T> {
-    
-    /// Object
-    let object: T
-    
-    /// Init wrapper
-    ///
-    /// - parameter object: Wrapper
-    ///
-    /// - returns: Wrapper
-    init(_ object: T) {
-        self.object = object
-    }
-}
-
 /// Authentication handler
 public protocol AuthenticationHandler {
     
@@ -48,7 +32,7 @@ func setAuthenticationCallback(_ callbacksStruct: inout git_remote_callbacks,
     
     // Convert handler to payload pointer
     callbacksStruct.payload = Unmanaged
-        .passRetained(AuthenticationWrapper(authentication))
+        .passRetained(CWrapper(authentication))
         .toOpaque()
     
     // Create crdential lambda calling credential handler
@@ -71,7 +55,7 @@ func setAuthenticationCallback(_ callbacksStruct: inout git_remote_callbacks,
         }
         
         // Transformation du pointer en wrapper
-        let authenticationWrapper = Unmanaged<AuthenticationWrapper<AuthenticationHandler>>
+        let authenticationWrapper = Unmanaged<CWrapper<AuthenticationHandler>>
             .fromOpaque(payload!)
             .takeRetainedValue()
         let result = authenticationWrapper.object.authenticate(out: out,
