@@ -1,7 +1,9 @@
 [![Build Status](https://travis-ci.org/damicreabox/Git2Swift.svg)](https://travis-ci.org/damicreabox/Git2Swift.svg)
 
 # Git2Swift
-Swift binding for **libgit2** library
+
+Swift library to manage GIT repository.
+Implement Swift binding of native **libgit2** C library.
 
 # About
 
