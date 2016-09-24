@@ -98,11 +98,12 @@ extension Head {
     ///
     /// - parameter branch:    branch to merge
     /// - parameter signature: signature for commiter
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
     ///
     /// - returns: True if branch is merged or false if conflicted files
-    public func merge(branch: Branch, signature: Signature) throws -> Bool {
+    public func merge(branch: Branch, signature: Signature, progress: Progress? = nil) throws -> Bool {
         
         // Analysis branch
         let mergeType = try analysis(branch: branch)
@@ -111,10 +112,10 @@ extension Head {
         case .upToDate:
             return true
         case .fastForward:
-            try fastForward(branch: branch, signature: signature)
+            try fastForward(branch: branch, signature: signature, progress: progress)
             return true
         case .normal:
-            return try normalMerge(branch: branch, signature: signature)
+            return try normalMerge(branch: branch, signature: signature, progress: progress)
         case .none:
             throw GitError.unableToMerge(msg: "Unmergeable branch \(branch)")
         }
@@ -124,27 +125,29 @@ extension Head {
     ///
     /// - parameter branch:    branch to merge
     /// - parameter signature: signature for commiter
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
-    private func fastForward(branch: Branch, signature: Signature) throws {
+    private func fastForward(branch: Branch, signature: Signature, progress: Progress? = nil) throws {
         
         // Update reference target
         try targetReference().updateTargetCommit(commit: try branch.targetCommit(), message: "Merge '\(branch.name)': Fast forward")
         
         // Checkout force
-        try checkout(tree: revTree(), type: .force)
+        try checkout(tree: revTree(), type: .force, progress: progress)
     }
 
     /// Internal normal merge
     ///
     /// - parameter branch:    branch to merge
     /// - parameter signature: signature for commiter
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
     ///
     /// - returns: True if branch is merged or false if conflicted files
-    private func normalMerge(branch: Branch, signature: Signature) throws -> Bool {
-
+    private func normalMerge(branch: Branch, signature: Signature, progress: Progress? = nil) throws -> Bool {
+        
         // Merge index
         let mergeIndexPtr = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
 
@@ -193,6 +196,9 @@ extension Head {
             checkout_opts.version = 1
             checkout_opts.checkout_strategy = GIT_CHECKOUT_ALLOW_CONFLICTS.rawValue
             
+            // Set progress
+            setCheckoutProgressHandler(options: &checkout_opts, progress: progress)
+            
             // Merge
             error = git_merge(repository.pointer.pointee, annotatedCommit, 1, &merge_opts, &checkout_opts)
             if (error != 0) {
@@ -213,7 +219,7 @@ extension Head {
                                             signature: signature)
             
             // Checkout new commit
-            try checkout(tree: try repository.head().revTree(), type: .force)
+            try checkout(tree: try repository.head().revTree(), type: .force, progress: progress)
             
             return true
         }
