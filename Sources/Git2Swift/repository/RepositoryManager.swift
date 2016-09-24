@@ -72,15 +72,16 @@ public class RepositoryManager {
     ///
     /// - parameter url:       Repository URL
     /// - parameter signature: Init signature
-    /// - parameter bare:      Create a bre repository
+    /// - parameter bare:      Create a bare repository
+    /// - parameter shared:    Share repository from users
     ///
     /// - throws: GitError
     ///
     /// - returns: Repository
-    public func initRepository(at url: URL, signature: Signature, bare: Bool = false) throws -> Repository {
+    public func initRepository(at url: URL, signature: Signature, bare: Bool = false, shared : Bool = false) throws -> Repository {
         
         // Create repository
-        let repository =  try Repository(initAt: url, manager: self, signature: signature, bare: bare)
+        let repository =  try Repository(initAt: url, manager: self, signature: signature, bare: bare, shared: shared)
         
         // Create initial commit
         _ = try repository.head().index().createInitialCommit(msg: "Initial commit", signature: signature)
