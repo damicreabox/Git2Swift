@@ -64,6 +64,7 @@
 		37D957D91D8F089D004BB092 /* TagIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D957B51D8F089D004BB092 /* TagIterator.swift */; };
 		37D957DA1D8F089D004BB092 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D957B61D8F089D004BB092 /* Tags.swift */; };
 		37D957DB1D8F089D004BB092 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D957B81D8F089D004BB092 /* Tree.swift */; };
+		37FFF2971D96909100697394 /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FFF2961D96909100697394 /* Progress.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		37D957B61D8F089D004BB092 /* Tags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tags.swift; sourceTree = "<group>"; };
 		37D957B81D8F089D004BB092 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		37FFF2951D96887400697394 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
+		37FFF2961D96909100697394 /* Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,6 +305,7 @@
 				37D957991D8F089D004BB092 /* Signature.swift */,
 				37D9579A1D8F089D004BB092 /* Strings.swift */,
 				372456441D91C90A00E62779 /* Wrapper.swift */,
+				37FFF2961D96909100697394 /* Progress.swift */,
 			);
 			name = commons;
 			path = Git2Swift/commons;
@@ -529,6 +532,7 @@
 				37D957C71D8F089D004BB092 /* Head+Merge.swift in Sources */,
 				37D957C51D8F089D004BB092 /* Strings.swift in Sources */,
 				37D957BE1D8F089D004BB092 /* BranchesIterator.swift in Sources */,
+				37FFF2971D96909100697394 /* Progress.swift in Sources */,
 				37D957D21D8F089D004BB092 /* Repository+Open.swift in Sources */,
 				37D957D91D8F089D004BB092 /* TagIterator.swift in Sources */,
 				37D957C61D8F089D004BB092 /* Head+Checkout.swift in Sources */,

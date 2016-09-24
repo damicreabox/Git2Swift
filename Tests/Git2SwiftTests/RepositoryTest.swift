@@ -98,9 +98,12 @@ class RepositoryTest: XCTestCase {
             
             // Create repository at URL
             let clonedPath = try DirectoryManager.initDirectory(name: RepositoryTest.name + "Clone")
+           
+            // Fake progress
+            let progress : Git2Swift.Progress? = Progress() // FIXME create progress
             
             // Create repo
-            let repository1 = try repositoryManager.cloneRepository(from: cloneUrl!, at: clonedPath)
+            let repository1 = try repositoryManager.cloneRepository(from: cloneUrl!, at: clonedPath, progress: progress)
             
             let iterator = try repository1.tags.all()
             let tag1 = iterator.next()

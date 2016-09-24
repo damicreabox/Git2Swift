@@ -38,9 +38,10 @@ public class Remote {
     
     /// Fetch all remote branches
     /// - parameter authentication: Authentication callback, maybe nil
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
-    public func fetch(authentication: AuthenticationHandler? = nil) throws {
+    public func fetch(authentication: AuthenticationHandler? = nil, progress: Progress? = nil) throws {
         
         // Define fetch options
         var fetchOptions = git_fetch_options()
@@ -48,6 +49,10 @@ public class Remote {
         fetchOptions.callbacks.version = 1
         fetchOptions.prune = GIT_FETCH_PRUNE_UNSPECIFIED
         fetchOptions.update_fetchhead = 1
+        
+        // Set progress
+        setTransfertProgressHandler(options: &fetchOptions.callbacks, progress: progress)
+        
         
         // test authentication
         if (authentication != nil) {
@@ -66,13 +71,15 @@ public class Remote {
     /// - parameter signature: Signature
     /// - parameter remote: Remote branch to merge
     /// - parameter authentication: Authentication callback, maybe nil
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
     public func pull(signature: Signature, remote: Branch? = nil,
-                     authentication: AuthenticationHandler? = nil) throws -> Bool {
+                     authentication: AuthenticationHandler? = nil,
+                     progress: Progress? = nil) throws -> Bool {
         
         // Fetch remote
-        try fetch(authentication: authentication)
+        try fetch(authentication: authentication, progress: progress)
         
         let remoteBranch: Branch
         
@@ -88,7 +95,7 @@ public class Remote {
         }
         
         // Merge head
-        return try repository.head().merge(branch: remoteBranch, signature: signature)
+        return try repository.head().merge(branch: remoteBranch, signature: signature, progress: progress)
     }
     
     /// Push a branch to remote
@@ -96,15 +103,22 @@ public class Remote {
     /// - parameter local:  Local branch
     /// - parameter remote: Remote branch or nil for same remote branch
     /// - parameter authentication: Authentication callback, maybe nil
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
     public func push(local: Branch, remote: Branch? = nil,
-                     authentication: AuthenticationHandler? = nil) throws {
+                     authentication: AuthenticationHandler? = nil,
+                     progress: Progress? = nil) throws {
    
+        // FIXME Use progress
+        
         // Set options
         var opts = git_push_options()
         opts.version = 1
         opts.callbacks.version = 1
+        
+        // Set progress
+        setTransfertProgressHandler(options: &opts.callbacks, progress: progress)
         
         // test authentication
         if (authentication != nil) {
