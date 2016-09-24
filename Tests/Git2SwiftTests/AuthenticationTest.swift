@@ -73,21 +73,42 @@ class AuthenticationInfo {
     
     init(dictionnary: Dictionary<String, AnyObject>?) {
         
-        authenticationTest = AuthenticationInfo.readString(dictionnary: dictionnary,
-                                            key:"authenticationTest",
-                                            defaultValue: false as AnyObject) as! Bool
-        user = AuthenticationInfo.readString(dictionnary: dictionnary,
-                                            key:"login",
-                                            defaultValue: "" as AnyObject) as! String
-        password = AuthenticationInfo.readString(dictionnary: dictionnary,
-                                            key:"password",
-                                            defaultValue: "" as AnyObject) as! String
-        privateKeyFile = AuthenticationInfo.readString(dictionnary: dictionnary,
-                                            key:"privateKey",
-                                            defaultValue: "" as AnyObject) as! String
-        publicKeyFile = AuthenticationInfo.readString(dictionnary: dictionnary,
-                                            key:"publicKey",
-                                            defaultValue: "" as AnyObject) as! String
+        #if os(Linux)
+        
+            authenticationTest = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                               key:"authenticationTest",
+                                                               defaultValue: false as! AnyObject) as! Bool
+            user = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                 key:"login",
+                                                 defaultValue: "" as! AnyObject) as! String
+            password = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                     key:"password",
+                                                     defaultValue: "" as! AnyObject) as! String
+            privateKeyFile = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                           key:"privateKey",
+                                                           defaultValue: "" as! AnyObject) as! String
+            publicKeyFile = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                          key:"publicKey",
+                                                          defaultValue: "" as! AnyObject) as! String
+            
+        #else
+            
+            authenticationTest = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                               key:"authenticationTest",
+                                                               defaultValue: false as AnyObject) as! Bool
+            user = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                 key:"login",
+                                                 defaultValue: "" as AnyObject) as! String
+            password = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                     key:"password",
+                                                     defaultValue: "" as AnyObject) as! String
+            privateKeyFile = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                           key:"privateKey",
+                                                           defaultValue: "" as AnyObject) as! String
+            publicKeyFile = AuthenticationInfo.readString(dictionnary: dictionnary,
+                                                          key:"publicKey",
+                                                          defaultValue: "" as AnyObject) as! String
+        #endif
     }
     
     convenience init(data: Data?) {

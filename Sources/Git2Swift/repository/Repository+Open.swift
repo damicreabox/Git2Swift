@@ -42,11 +42,15 @@ extension Repository {
     /// - parameter manager:   Repository manager
     /// - parameter signature: Initial commiter
     /// - parameter bare:      Create bare repository
+    /// - parameter shared:    Share repository from users
     ///
     /// - throws: GitError
     ///
     /// - returns: Repository
-    convenience init(initAt url: URL, manager: RepositoryManager, signature: Signature, bare: Bool) throws {
+    convenience init(initAt url: URL, manager: RepositoryManager,
+                     signature: Signature,
+                     bare: Bool,
+                     shared : Bool) throws {
         
         // Repository pointer
         let repository = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
@@ -61,8 +65,10 @@ extension Repository {
             options.flags = GIT_REPOSITORY_INIT_BARE.rawValue
         }
         
-        // Used shared
-        options.mode = GIT_REPOSITORY_INIT_SHARED_ALL.rawValue
+        if shared {
+            // Used shared
+            options.mode = GIT_REPOSITORY_INIT_SHARED_ALL.rawValue
+        }
         
         // Init repo
         let error = git_repository_init_ext(repository, url.path, &options)
