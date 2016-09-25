@@ -39,14 +39,15 @@ extension Head {
     /// Checkout a branch and swith HEAD to this
     ///
     /// - parameter branch: branch
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError 
     ///    - GitError.NOT_FOUND : if branch not found
     ///    - GitError.UNKNOW_ERROR : for unknow error
-    public func checkout(branch: Branch) throws {
+    public func checkout(branch: Branch, progress: Progress? = nil) throws {
         
         // Checkout new tree
-        try checkout(tree: try branch.revTree(), type: .safe)
+        try checkout(tree: try branch.revTree(), type: .safe, progress: progress)
         
         // Set head
         let error = git_repository_set_head(repository.pointer.pointee, branch.name)
@@ -58,14 +59,15 @@ extension Head {
     /// Checkout a tag and swith HEAD to this
     ///
     /// - parameter tag: tag
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
     ///    - GitError.NOT_FOUND : if branch not found
     ///    - GitError.UNKNOW_ERROR : for unknow error
-    public func checkout(tag: Tag) throws {
+    public func checkout(tag: Tag, progress: Progress? = nil) throws {
         
         // Checkout new tree
-        try checkout(tree: try tag.revTree(), type: .safe)
+        try checkout(tree: try tag.revTree(), type: .safe, progress: progress)
         
         // Set repository to tag
         let error = git_repository_set_head(repository.pointer.pointee, tag.name)
@@ -78,13 +80,17 @@ extension Head {
     ///
     /// - parameter tree: File tree
     /// - parameter type: Checkout type
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
-    public func checkout(tree: Tree, type: CheckoutType) throws {
+    public func checkout(tree: Tree, type: CheckoutType, progress: Progress? = nil) throws {
         
         // Select checkout strategy
         var opts = git_checkout_options()
         opts.version = 1
+        
+        // Set progress
+        setCheckoutProgressHandler(options: &opts, progress: progress)
         
         switch type {
         case .none:
@@ -107,13 +113,17 @@ extension Head {
     /// Reset head.
     ///
     /// - parameter type: Reset type
+    /// - parameter progress: Progress object
     ///
     /// - throws: GitError
-    public func reset(type: ResetType) throws {
+    public func reset(type: ResetType, progress: Progress? = nil) throws {
         
         // Set checkout option
         var opts = git_checkout_options()
         opts.version = 1
+        
+        // Set progress
+        setCheckoutProgressHandler(options: &opts, progress: progress)
         
         let gType : git_reset_t
         

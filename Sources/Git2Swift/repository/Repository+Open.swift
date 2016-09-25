@@ -88,6 +88,7 @@ extension Repository {
     /// - parameter at:             URL to local respository
     /// - parameter manager:        Repository manager
     /// - parameter authentication: Authentication
+    /// - parameter progress:       Object containing progress callbacks
     ///
     /// - throws: GitError wrapping libgit2 error
     ///
@@ -95,20 +96,27 @@ extension Repository {
     convenience init(cloneFrom url: URL,
                      at: URL,
                      manager: RepositoryManager,
-                     authentication: AuthenticationHandler? = nil) throws {
+                     authentication: AuthenticationHandler? = nil,
+                     progress: Progress? = nil) throws {
         
         // Repository pointer
         let repository = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
         
         var opts = git_clone_options()
         opts.version = 1
+        
+        // General checkouts
         opts.checkout_opts.version = 1
         opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE.rawValue
+        
+        // General fetchs
         opts.fetch_opts.version = 1
         opts.fetch_opts.prune = GIT_FETCH_PRUNE_UNSPECIFIED
         opts.fetch_opts.update_fetchhead = 1
-        
         opts.fetch_opts.callbacks.version = 1
+
+        // Set fetch progress
+        setTransfertProgressHandler(options: &opts.fetch_opts.callbacks, progress: progress)
         
         // Check handler
         if (authentication != nil) {

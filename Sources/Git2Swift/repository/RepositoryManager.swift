@@ -106,6 +106,7 @@ public class RepositoryManager {
     ///
     /// - parameter remoteUrl: Remote URL
     /// - parameter url:       Repository URL
+    /// - parameter progress: Progress object
     /// - parameter authentication: Authentication handler
     ///
     /// - throws: GitError wrapping libgit2 error
@@ -113,10 +114,11 @@ public class RepositoryManager {
     /// - returns: Repository
     public func cloneRepository(from remoteUrl: URL,
                                 at url: URL,
+                                progress: Progress? = nil,
                                 authentication: AuthenticationHandler? = nil) throws -> Repository {
         
         // Open repository
-        return try Repository(cloneFrom: remoteUrl, at: url, manager: self, authentication: authentication)
+        return try Repository(cloneFrom: remoteUrl, at: url, manager: self, authentication: authentication, progress: progress)
     }
 
     /// Find system signature
