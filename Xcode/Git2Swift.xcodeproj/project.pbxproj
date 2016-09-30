@@ -65,6 +65,7 @@
 		37D957DA1D8F089D004BB092 /* Tags.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D957B61D8F089D004BB092 /* Tags.swift */; };
 		37D957DB1D8F089D004BB092 /* Tree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D957B81D8F089D004BB092 /* Tree.swift */; };
 		37FFF2971D96909100697394 /* Progress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37FFF2961D96909100697394 /* Progress.swift */; };
+		7D2361541D9E5570006E0AB8 /* Blob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D2361531D9E5570006E0AB8 /* Blob.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -145,6 +146,7 @@
 		37D957B81D8F089D004BB092 /* Tree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tree.swift; sourceTree = "<group>"; };
 		37FFF2951D96887400697394 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		37FFF2961D96909100697394 /* Progress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Progress.swift; sourceTree = "<group>"; };
+		7D2361531D9E5570006E0AB8 /* Blob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blob.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +300,7 @@
 		37D957941D8F089D004BB092 /* commons */ = {
 			isa = PBXGroup;
 			children = (
+				7D2361531D9E5570006E0AB8 /* Blob.swift */,
 				37D957951D8F089D004BB092 /* ConfigManager.swift */,
 				37D957961D8F089D004BB092 /* Error.swift */,
 				37D957971D8F089D004BB092 /* Object.swift */,
@@ -517,6 +520,7 @@
 				37D957C41D8F089D004BB092 /* Signature.swift in Sources */,
 				37D957C31D8F089D004BB092 /* OID.swift in Sources */,
 				37D957C21D8F089D004BB092 /* Object.swift in Sources */,
+				7D2361541D9E5570006E0AB8 /* Blob.swift in Sources */,
 				37D957B91D8F089D004BB092 /* Authentication.swift in Sources */,
 				37D957CA1D8F089D004BB092 /* Index+Files.swift in Sources */,
 				37D957BC1D8F089D004BB092 /* Branch.swift in Sources */,
