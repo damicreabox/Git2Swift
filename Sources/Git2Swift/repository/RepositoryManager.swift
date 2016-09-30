@@ -52,7 +52,7 @@ public class RepositoryManager {
         RepositoryManager.lock.unlock()
     }
     
-    /// If there are only one repository, free libgit2 librairy
+    /// If there are only one repository, free libgit2 library
     deinit {
         
         // Lock
