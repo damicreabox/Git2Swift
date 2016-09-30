@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Wrapp authentication to C function
+/// Wrap authentication to C function
 internal class CWrapper<T> {
     
     /// Object
