@@ -53,6 +53,26 @@ extension Index {
         }
     }
     
+    /// Add item
+    ///
+    /// - parameter url: URL of the item
+    ///
+    /// - throws: GitError
+    public func addItem(data: Data, at path: String) throws {
+        var index_entry = git_index_entry()
+        try path.withCString { (ptr: UnsafePointer<Int8>) -> Void in
+            index_entry.path = ptr
+            index_entry.mode = 33188
+            /* create a blob from our buffer */
+            try data.withUnsafeBytes {(bytes: UnsafePointer<OpaquePointer?>) -> Void in
+                let error = git_index_add_frombuffer(idx.pointee, &index_entry, bytes, data.count)
+                if error != 0 {
+                    throw gitUnknownError("Unable to add Data to index", code: error)
+                }
+            }
+        }
+    }
+
     /// Remove item
     ///
     /// - parameter url: URL of the item

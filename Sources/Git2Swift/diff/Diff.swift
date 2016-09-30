@@ -71,7 +71,7 @@ public class Diff {
                                         return 0
                                         
             }, nil, nil, nil, ptr)
-        if (error != 1) {
+        if (error != 0) {
             NSLog("Error login diff \(git_error_message())")
         }
         

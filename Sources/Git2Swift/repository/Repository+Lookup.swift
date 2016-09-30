@@ -107,4 +107,29 @@ extension Repository {
         
         return Commit(repository: self, pointer: commit, oid: OID(withGitOid: oid))
     }
+
+    /// Lookup a blob
+    ///
+    /// - parameter blob_id: OID
+    ///
+    /// - throws: GitError
+    ///
+    /// - returns: Blob
+    public func blobLookup(oid blob_id: OID) throws -> Blob {
+
+        // Create tree
+        let blob : UnsafeMutablePointer<OpaquePointer?> = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
+
+        var oid = blob_id.oid
+        let error = git_blob_lookup(blob, pointer.pointee, &oid)
+        if error != 0 {
+
+            blob.deinitialize()
+            blob.deallocate(capacity: 1)
+
+            throw gitUnknownError("Unable to lookup blob", code: error)
+        }
+
+        return Blob(blob: blob)
+    }
 }
