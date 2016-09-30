@@ -30,7 +30,7 @@ public class Signature {
     /// - parameter email: Signature email
     ///
     /// - returns: Signature
-    init(name: String, email: String) {
+    public init(name: String, email: String) {
         self.name = name
         self.email = email
     }
