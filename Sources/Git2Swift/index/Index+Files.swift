@@ -78,7 +78,18 @@ extension Index {
     /// - parameter url: URL of the item
     ///
     /// - throws: GitError
-    public func removeItem(at url: URL) throws {
+    public func removeItem(at path: String) {
+        path.withCString { (ptr: UnsafePointer<Int8>) -> Void in
+            git_index_remove(idx.pointee, ptr, 0)
+        }
+    }
+
+    /// Remove item
+    ///
+    /// - parameter url: URL of the item
+    ///
+    /// - throws: GitError
+    public func removeItemByPath(at url: URL) throws {
         
         // Create relative path
         guard let path = relativePath(from: url, to: repository.url) else {

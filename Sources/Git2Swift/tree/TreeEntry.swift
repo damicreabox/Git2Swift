@@ -33,4 +33,9 @@ public class TreeEntry {
         pointer.deinitialize()
         pointer.deallocate(capacity: 1)
     }
+
+    /// Commit summary
+    lazy public var oid : OID = {
+        OID(withGitOid: git_tree_entry_id(self.pointer.pointee).pointee)
+    } ()
 }
