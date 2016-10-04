@@ -48,8 +48,8 @@ public class Tree {
     /// parameter tree: Pointer to tree type
     ///
     /// returns List of files in tree
-    public func files() -> [String] {
-        return files(tree: self.tree.pointee)
+    public func files() throws -> [String] {
+        return try files(tree: self.tree.pointee)
     }
 
     /// List of file names in the tree
@@ -57,7 +57,7 @@ public class Tree {
     /// parameter tree: Pointer to tree type
     ///
     /// returns List of files in tree
-    public func files(tree: OpaquePointer?, root: String = "") -> [String] {
+    public func files(tree: OpaquePointer?, root: String = "") throws -> [String] {
         var ff: [String] = []
         let count = git_tree_entrycount(tree)
         for ii in 0..<count {
@@ -70,7 +70,10 @@ public class Tree {
             if type == GIT_OBJ_TREE {
                 let pointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
                 let error = git_tree_entry_to_object(pointer, repository.pointer.pointee, entry)
-                ff += files(tree: pointer.pointee, root: "\(root)\(name)/")
+		if error != 0 {
+		    throw GitError.unknownError(msg: "", code: error, desc: git_error_message())
+		}
+                ff += try files(tree: pointer.pointee, root: "\(root)\(name)/")
                 if let ptr = pointer.pointee {
                     git_object_free(ptr)
                 }
