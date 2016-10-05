@@ -70,9 +70,13 @@ public class Tree {
             if type == GIT_OBJ_TREE {
                 let pointer = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
                 let error = git_tree_entry_to_object(pointer, repository.pointer.pointee, entry)
-		if error != 0 {
-		    throw GitError.unknownError(msg: "", code: error, desc: git_error_message())
-		}
+
+                guard error == 0 else {
+                    pointer.deinitialize()
+                    pointer.deallocate(capacity: 1)
+                    throw gitUnknownError("Unable to create object", code: error)
+                }
+
                 ff += try files(tree: pointer.pointee, root: "\(root)\(name)/")
                 if let ptr = pointer.pointee {
                     git_object_free(ptr)
