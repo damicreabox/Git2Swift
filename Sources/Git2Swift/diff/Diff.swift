@@ -31,7 +31,7 @@ public class Diff {
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
     
     /// All Diff entries
-    lazy private var entries : Dictionary<String, DiffEntry> = {
+    lazy public var entries : Dictionary<String, DiffEntry> = {
         
         // Create internal object to convert in C pointer
         var payload = InternalDiffWrapper(self)
