@@ -46,7 +46,7 @@ public class Diff {
                                         // Transformation du pointer en wrapper
                                         let diffWrapper = Unmanaged<CWrapper<InternalDiffWrapper>>
                                             .fromOpaque(payload!)
-                                            .takeRetainedValue()
+                                            .takeUnretainedValue()
                                         
                                         if let delta = delta {
                                             
