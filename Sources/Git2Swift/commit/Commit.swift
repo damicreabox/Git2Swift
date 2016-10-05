@@ -92,6 +92,9 @@ public class Commit : Object {
         return Commit(repository: self.repository, pointer: commit, oid: OID(withGitOid: oid!.pointee))
     }
 
+    /// Return the tree associated with this commit
+    ///
+    /// - returns: Tree associated with this commit
     public func tree() throws -> Tree {
         
         // Tree
