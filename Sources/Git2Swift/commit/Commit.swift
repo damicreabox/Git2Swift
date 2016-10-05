@@ -50,6 +50,11 @@ public class Commit : Object {
         TimeZone(secondsFromGMT: Int(git_commit_time_offset(self.pointer.pointee)) * 60)
     } ()
     
+    /// Commit parentCount
+    lazy public var parentCount : UInt32 = {
+        git_commit_parentcount(self.pointer.pointee)
+    } ()
+
     /// Constructor with libgit2 pointer and OID
     ///
     /// - parameter pointer: libgit2 commit pointer
@@ -70,6 +75,23 @@ public class Commit : Object {
         pointer.deallocate(capacity: 1)
     }
     
+    /// Return a parent of the commit
+    ///
+    /// - parameter parent: The index of the parents to return
+    ///
+    /// - returns: The parent at the requested index of this commit
+    public func parent(parent: Int = 0) throws -> Commit {
+        let commit: UnsafeMutablePointer<OpaquePointer?> = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
+        let error = git_commit_parent(commit, self.pointer.pointee, 0)
+        guard error == 0 else {
+            commit.deinitialize()
+            commit.deallocate(capacity: 1)
+            throw gitUnknownError("Unable to lookup parent", code: error)
+        }
+        let oid = git_commit_id(commit.pointee)
+        return Commit(repository: self.repository, pointer: commit, oid: OID(withGitOid: oid!.pointee))
+    }
+
     public func tree() throws -> Tree {
         
         // Tree
