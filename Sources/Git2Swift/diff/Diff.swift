@@ -36,7 +36,7 @@ public class Diff {
         // Create internal object to convert in C pointer
         var payload = InternalDiffWrapper(self)
         
-        // COnvert in C pointer
+        // Convert in C pointer
         let ptr = Unmanaged.passRetained(CWrapper(payload)).toOpaque()
         
         // Foreach on all diff entries
