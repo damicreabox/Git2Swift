@@ -75,6 +75,24 @@ public class Commit : Object {
         pointer.deallocate(capacity: 1)
     }
     
+
+    /// Diff two commits
+    ///
+    /// - parameter from: Commit to diff from
+    ///
+    /// - returns: Diff comparing the two commit trees
+    public func diff(from commit: Commit) throws -> Diff {
+        let ptr: UnsafeMutablePointer<OpaquePointer?> = UnsafeMutablePointer<OpaquePointer?>.allocate(capacity: 1)
+        let error = try git_diff_tree_to_tree(ptr, self.repository.pointer.pointee,
+            commit.tree().tree.pointee, self.tree().tree.pointee, nil)
+        guard error == 0 else {
+            ptr.deinitialize()
+            ptr.deallocate(capacity: 1)
+            throw gitUnknownError("Unable to diff commits", code: error)
+        }
+        return Diff(pointer: ptr)
+    }
+
     /// Return a parent of the commit
     ///
     /// - parameter parent: The index of the parents to return
