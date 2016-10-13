@@ -31,12 +31,12 @@ public class Diff {
     internal let pointer : UnsafeMutablePointer<OpaquePointer?>
     
     /// All Diff entries
-    lazy private var entries : Dictionary<String, DiffEntry> = {
+    lazy public var entries : Dictionary<String, DiffEntry> = {
         
         // Create internal object to convert in C pointer
         var payload = InternalDiffWrapper(self)
         
-        // COnvert in C pointer
+        // Convert in C pointer
         let ptr = Unmanaged.passRetained(CWrapper(payload)).toOpaque()
         
         // Foreach on all diff entries
@@ -46,7 +46,7 @@ public class Diff {
                                         // Transformation du pointer en wrapper
                                         let diffWrapper = Unmanaged<CWrapper<InternalDiffWrapper>>
                                             .fromOpaque(payload!)
-                                            .takeRetainedValue()
+                                            .takeUnretainedValue()
                                         
                                         if let delta = delta {
                                             
